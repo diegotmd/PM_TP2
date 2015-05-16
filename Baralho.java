@@ -6,10 +6,8 @@ import java.util.Collection;
  *
  * @author ddayrell
  */
-public interface Baralho {
-    public Collection<CartaBaralho> cartasBaralho();
+public interface Baralho extends ColecaoCartasBaralho {
     public void embaralhar();
     public void cortar(int posicaoCarta);
-    public CartaBaralho retirarProximaCarta();
     public void resetarBaralho();        
 }

@@ -11,6 +11,13 @@ public class CartaSeteEMeio implements CartaBaralho {
     private double valor;
     private boolean valorAberto;
     
+    public CartaSeteEMeio(String nome, Naipe naipe, double valor, boolean valorAberto){
+        this.nome = nome;
+        this.naipe = naipe;
+        this.valor = valor;
+        this.valorAberto = valorAberto;
+    }
+    
     @Override
     public String getNome() {
         return this.nome;
