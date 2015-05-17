@@ -1,8 +1,8 @@
 package br.ufmg.dcc.pm.seteemeio;
 
-import seteemeio.Banqueiro;
-import seteemeio.JogoSeteEMeio;
-import seteemeio.Mao;
+import br.ufmg.dcc.pm.seteemeio.Banqueiro;
+import br.ufmg.dcc.pm.seteemeio.JogoSeteEMeio;
+import br.ufmg.dcc.pm.seteemeio.Mao;
 
 /**
  *
@@ -90,5 +90,17 @@ public class Jogador {
     
     public void setSaldoDisponivel(double novoSaldoDisponivel) {
     	this.saldoDisponivel = novoSaldoDisponivel;
+    }
+    
+    public void imprimirMaoAtual(){
+        System.out.printf("Mão do jogador %s: ", this.getNome());
+        for (CartaBaralho carta : getMaoAtual().colecaoDeCartas()){
+            System.out.printf("%s - ", this.getNome());
+            if (carta.valorEhAberto()) {
+                System.out.printf("Aberta", this.getNome());
+            } else {
+                System.out.printf("Fechada", this.getNome());
+            }
+        }
     }
 }

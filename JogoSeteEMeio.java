@@ -1,8 +1,9 @@
 package br.ufmg.dcc.pm.seteemeio;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 
-import seteemeio.Banqueiro;
+import br.ufmg.dcc.pm.seteemeio.Banqueiro;
 
 /**
  *
@@ -37,7 +38,23 @@ public class JogoSeteEMeio {
     	}
     	
     	// distribuir carta ao proprio banqueiro
-    	banqueiroAtual.distribuirCartas(banqueiroAtual, baralhoSeteEMeio, false);    	
+    	banqueiroAtual.distribuirCartas(banqueiroAtual, baralhoSeteEMeio, false);
+
+        // rodada de apostas iniciais
+        this.fazerApostasIniciais();
+    }
+    
+    private void fazerApostasIniciais(){
+        // para cada jogador, mostra qual carta ele tem e pergunta valor da aposta
+        Scanner in = new Scanner(System.in);
+        double aposta = 0.0;
+        
+        for (Jogador jogador : jogadores){
+            jogador.imprimirMaoAtual();
+            System.out.printf("Digite o valor da aposta do jogaodor %s: ", jogador.getNome());
+            aposta = in.nextDouble();
+            jogador.apostar(aposta);
+        }
     }
     
     public void adicionarJogador(Jogador jogador){
@@ -71,7 +88,7 @@ public class JogoSeteEMeio {
 	        		// banqueiro paga o dobro da aposta do jogador
 	        		banqueiroAtual.bonificaJogador(jogador, 2);
 	        		
-	        		// se jogador tiver a carta coringa e uma carta meio, será novo banqueiro
+	        		// se jogador tiver a carta coringa e uma carta meio, serï¿½ novo banqueiro
 	        		if (jogador.getMaoAtual().colecaoDeCartas().size() == 2) {
 	        			/*if ((jogador.getMaoAtual().colecaoDeCartas().get(0).ehCartaCoringa() &&
 	        				 jogador.getMaoAtual().colecaoDeCartas().get(1).getValor() == 0.5) ||

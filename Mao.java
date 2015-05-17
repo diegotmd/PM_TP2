@@ -3,8 +3,8 @@ package br.ufmg.dcc.pm.seteemeio;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import seteemeio.CartaBaralho;
-import seteemeio.Naipe;
+import br.ufmg.dcc.pm.seteemeio.CartaBaralho;
+import br.ufmg.dcc.pm.seteemeio.Naipe;
 
 /**
  *
