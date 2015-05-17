@@ -30,7 +30,7 @@ public class Mao implements ColecaoCartasBaralho {
     	
         // calcula valor da mao sem levar em consideracao o coringa
     	for (CartaBaralho carta : cartasMao) {
-           	if (carta.getNaipe() != Naipe.Ouros && carta.getValor() != 7) {
+           	if (carta.ehCartaCoringa()) {
            		valorMao += carta.getValor();
            	} else {
            		possuiCoringa = true;
