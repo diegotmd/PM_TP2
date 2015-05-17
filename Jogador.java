@@ -1,5 +1,9 @@
 package br.ufmg.dcc.pm.seteemeio;
 
+import seteemeio.Banqueiro;
+import seteemeio.JogoSeteEMeio;
+import seteemeio.Mao;
+
 /**
  *
  * @author ddayrell
@@ -23,19 +27,35 @@ public class Jogador {
         return (maoAtual != null && maoAtual.colecaoDeCartas().size() > 0);
     }
     
-    // efetua uma aposta e reduz saldo
+    // efetua uma aposta
     public void apostar(double valor){
-        if (saldoDisponivel >= valor) {
+    	// saldo do jogador deve ser suficiente para pagar o dobro, caso estoure
+        if (valor <= jogoAtual.getApostaMaxima() &&
+            valor >= jogoAtual.getApostaMinima() &&
+            saldoDisponivel >= valor * 2) {
             valorApostaAtual = valor;
-            saldoDisponivel-=valor;
         } else {
             // lanca exception
         }
-        
     }
     
-    // adiciona uma nova carta à mão atual
-    public void adicionarCartaAMao(CartaBaralho novaCarta){
+    // paga aposta
+    public void pagaAposta(Banqueiro banqueiro, int fator) {
+    	if (saldoDisponivel >= valorApostaAtual * fator) {
+            saldoDisponivel -= valorApostaAtual * fator;
+            banqueiro.recebeAposta(valorApostaAtual * fator);
+        } else {
+            // lanca exception
+        }
+    }
+    
+    // recebe aposta (bonificacao)
+    public void recebeAposta(double valor) {
+    	saldoDisponivel += valor;
+    }
+    
+    // adiciona uma nova carta a mao atual
+    public void adicionarCartaAMao(CartaBaralho novaCarta) {
         this.maoAtual.adicionarCarta(novaCarta);
     }
     
@@ -54,5 +74,21 @@ public class Jogador {
     
     public double getSaldoDisponivel(){
         return this.saldoDisponivel;
+    }
+    
+    public double getValorApostaAtual() {
+    	return this.valorApostaAtual;
+    }
+    
+    public Mao getMaoAtual() {
+    	return this.maoAtual;
+    }
+    
+    public JogoSeteEMeio getJogoAtual() {
+    	return this.jogoAtual;
+    }
+    
+    public void setSaldoDisponivel(double novoSaldoDisponivel) {
+    	this.saldoDisponivel = novoSaldoDisponivel;
     }
 }

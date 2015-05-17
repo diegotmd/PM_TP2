@@ -2,6 +2,7 @@ package br.ufmg.dcc.pm.seteemeio;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,12 +20,7 @@ public class BaralhoSeteEMeio implements Baralho {
     
     @Override
     public void embaralhar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void cortar(int posicaoCarta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collections.shuffle(this.cartasBaralho);
     }
 
     @Override
@@ -36,6 +32,13 @@ public class BaralhoSeteEMeio implements Baralho {
     public void resetarBaralho() {
         // reinicia o baralho com todas as cartas do sete e meio
         this.cartasBaralho = new ArrayList<CartaBaralho>();
+        this.cartasBaralho.add(new CartaSeteEMeio("As de Paus", Naipe.Paus, 1, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("2 de Paus", Naipe.Paus, 2, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("3 de Paus", Naipe.Paus, 3, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("4 de Paus", Naipe.Paus, 4, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("5 de Paus", Naipe.Paus, 5, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("6 de Paus", Naipe.Paus, 6, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("7 de Paus", Naipe.Paus, 7, true));
         this.cartasBaralho.add(new CartaSeteEMeio("Valete de Paus", Naipe.Paus, 0.5, true));
         this.cartasBaralho.add(new CartaSeteEMeio("Dama de Paus", Naipe.Paus, 0.5, true));
         this.cartasBaralho.add(new CartaSeteEMeio("Rei de Paus", Naipe.Paus, 0.5, true));
@@ -59,11 +62,20 @@ public class BaralhoSeteEMeio implements Baralho {
         this.cartasBaralho.add(new CartaSeteEMeio("Valete de Copas", Naipe.Copas, 0.5, true));
         this.cartasBaralho.add(new CartaSeteEMeio("Dama de Copas", Naipe.Copas, 0.5, true));
         this.cartasBaralho.add(new CartaSeteEMeio("Rei de Copas", Naipe.Copas, 0.5, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("As de Ouros", Naipe.Ouros, 1, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("2 de Ouros", Naipe.Ouros, 2, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("3 de Ouros", Naipe.Ouros, 3, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("4 de Ouros", Naipe.Ouros, 4, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("5 de Ouros", Naipe.Ouros, 5, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("6 de Ouros", Naipe.Ouros, 6, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("7 de Ouros", Naipe.Ouros, 7, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("Valete de Ouros", Naipe.Ouros, 0.5, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("Dama de Ouros", Naipe.Ouros, 0.5, true));
+        this.cartasBaralho.add(new CartaSeteEMeio("Rei de Ouros", Naipe.Ouros, 0.5, true));
     }
 
     @Override
     public List<CartaBaralho> colecaoDeCartas() {
         return cartasBaralho;
     }
-    
 }

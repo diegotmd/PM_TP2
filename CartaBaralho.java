@@ -9,5 +9,6 @@ public interface CartaBaralho {
     public Naipe getNaipe();
     public double getValor();
     public boolean valorEhAberto();
+    public boolean ehCartaCoringa();
     public void abrirCarta();
 }

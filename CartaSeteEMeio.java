@@ -38,6 +38,11 @@ public class CartaSeteEMeio implements CartaBaralho {
         return this.valorAberto;
     }
     
+    @Override
+    public boolean ehCartaCoringa() {
+    	return (valor == 7 && naipe == Naipe.Ouros);
+    }
+    
     private void setValorAbertoFechado(boolean idcValorAberto){
         this.valorAberto = idcValorAberto;
     }
@@ -46,5 +51,4 @@ public class CartaSeteEMeio implements CartaBaralho {
     public void abrirCarta() {
         setValorAbertoFechado(true);
     }
-    
 }
