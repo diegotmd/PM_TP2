@@ -100,9 +100,9 @@ public class Jogador {
     }
     
     public void imprimirMaoAtual() {
-        System.out.printf("\nMao do jogador %s: ", this.getNome());
+        System.out.printf("\nMao do jogador %s: \n", this.getNome());
         for (CartaBaralho carta : getMaoAtual().colecaoDeCartas()){
-            System.out.printf("\n\t%s - ", carta.getNome());
+            System.out.printf("\t%s - ", carta.getNome());
             if (carta.valorEhAberto()) {
                 System.out.println("Aberta");
             } else {

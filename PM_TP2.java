@@ -47,9 +47,18 @@ public class PM_TP2 {
         }
 
         // inicializa jogo
-        jogoSeteEmeio.inicializar();
+        jogoSeteEmeio.inicializar(in);
         
-        //
+        // espera cada jogador pedir sua quantidade de cartas
+        for (Jogador jogador : jogoSeteEmeio.getJogadores()) {
+        	jogoSeteEmeio.oferecerCarta(jogador, in);
+        }
+        
+        // após todos os jogadores pedirem as cartas, o proprio banqueiro retira cartas
+        jogoSeteEmeio.retirarCartasBanqueiro(in);
+        
+        // finalizadas as retiradas, calcula resultado final
+        jogoSeteEmeio.fimRodada();
         
         in.close();       
     }

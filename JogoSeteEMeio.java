@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 import br.ufmg.dcc.pm.seteemeio.Banqueiro;
+import br.ufmg.dcc.pm.seteemeio.Jogador;
 
 /**
  *
@@ -27,7 +28,7 @@ public class JogoSeteEMeio {
         return this.jogadores;
     }
     
-    public void inicializar(){
+    public void inicializar(Scanner in){
         // inicializar jogo
     	
     	// embaralha
@@ -42,12 +43,11 @@ public class JogoSeteEMeio {
     	banqueiroAtual.distribuirCartas(banqueiroAtual, baralhoSeteEMeio, false);
 
         // rodada de apostas iniciais
-        this.fazerApostasIniciais();
+        this.fazerApostasIniciais(in);
     }
     
-    private void fazerApostasIniciais(){
+    private void fazerApostasIniciais(Scanner in){
         // para cada jogador, mostra qual carta ele tem e pergunta valor da aposta
-        Scanner in = new Scanner(System.in);
         double aposta = 0.0;
         
         for (Jogador jogador : jogadores){
@@ -56,8 +56,56 @@ public class JogoSeteEMeio {
             aposta = in.nextDouble();
             jogador.apostar(aposta);
         }
-        
-        in.close();
+    }
+    
+    public void oferecerCarta(Jogador jogador, Scanner in) {
+    	String novaCarta, cartaAberta;
+
+    	// imprime mao atual para que o jogador avalie a situacao
+    	jogador.imprimirMaoAtual();
+    	
+    	System.out.print(jogador.getNome() + ", deseja retirar mais uma carta? (s/n)");
+    	novaCarta = in.next();
+    	
+    	while(novaCarta.equalsIgnoreCase("S")) {
+    		System.out.print("Deseja carta aberta? (s/n)");
+    		cartaAberta = in.next();
+    		banqueiroAtual.distribuirCartas(jogador, this.baralhoSeteEMeio, cartaAberta.equalsIgnoreCase("S"));
+    		
+    		// imprime novamente como ficou a mao apos o recebimento da carta
+    		jogador.imprimirMaoAtual();
+	    	
+	    	System.out.printf("%s, deseja retirar mais uma carta? (s/n)", jogador.getNome());
+	    	novaCarta = in.next();
+    	}
+    
+    	// ao finalizar pedidos de carta, verifica se mão aberta estourou
+    	if (jogador.getMaoAtual().calcularValorDaMaoAberta() > 7.5) {
+    		// paga aposta e sai da rodada
+    		jogador.pagaAposta(banqueiroAtual, 2);
+    	}
+    }
+    
+    public void retirarCartasBanqueiro(Scanner in) {
+    	String novaCarta, cartaAberta;
+
+    	// imprime mao atual para que o jogador avalie a situacao
+    	banqueiroAtual.imprimirMaoAtual();
+    	
+    	System.out.print(banqueiroAtual.getNome() + " (BANQUEIRO), deseja retirar mais uma carta? (s/n)");
+    	novaCarta = in.next();
+    	
+    	while(novaCarta.equalsIgnoreCase("S")) {
+    		System.out.print("Deseja carta aberta? (s/n)");
+    		cartaAberta = in.next();
+    		banqueiroAtual.distribuirCartas(banqueiroAtual, this.baralhoSeteEMeio, cartaAberta.equalsIgnoreCase("S"));
+    		
+    		// imprime novamente como ficou a mao apos o recebimento da carta
+    		banqueiroAtual.imprimirMaoAtual();
+	    	
+	    	System.out.printf("%s, deseja retirar mais uma carta? (s/n)", banqueiroAtual.getNome());
+	    	novaCarta = in.next();
+    	}
     }
     
     public void adicionarJogador(Jogador jogador){

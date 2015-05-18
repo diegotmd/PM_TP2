@@ -55,9 +55,37 @@ public class Mao implements ColecaoCartasBaralho {
         
     	return valorMao;
     }
+    
+    public double calcularValorDaMaoAberta(){
+    	double valorMaoAberta = 0.0;
+    	boolean possuiCoringa = false;
+    	
+        // calcula valor da mao sem levar em consideracao o coringa
+    	for (CartaBaralho carta : cartasMao) {
+           	if (carta.valorEhAberto()) {
+	    		if (carta.ehCartaCoringa()) {
+	           		possuiCoringa = true;
+	           	} else {
+	           		valorMaoAberta += carta.getValor();
+	           	}
+           	}
+        }
+        
+        if (possuiCoringa) {
+        	// identificar valor ideal para coringa
+        	if (valorMaoAberta < 7.5) {
+        		valorMaoAberta = 7.5;
+        	} else {
+        		// se o valor da mao ja tiver estourado sem contar com o coringa, apenas soma seu valor real
+        		valorMaoAberta += 7;
+        	}
+        }
+        
+    	return valorMaoAberta;
+    }
 
     @Override
-    public Collection<CartaBaralho> colecaoDeCartas() {
+    public ArrayList<CartaBaralho> colecaoDeCartas() {
         return cartasMao;
     }
 
