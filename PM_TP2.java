@@ -1,7 +1,10 @@
-package br.ufmg.dcc.pm.seteemeio;
-
+package br.ufmg.dcc.pm.tp2;
+import br.ufmg.dcc.pm.seteemeio.Banqueiro;
 import br.ufmg.dcc.pm.seteemeio.Jogador;
-import br.ufmg.dcc.pm.seteemeio.JogoSeteEMeio;
+import br.ufmg.dcc.pm.seteemeio.JogoDeBaralho;
+import br.ufmg.dcc.pm.seteemeio.JogoDeBaralhoFactory;
+import br.ufmg.dcc.pm.seteemeio.JogoSeteEMeioFactory;
+
 import java.util.Scanner;
 
 /**
@@ -14,53 +17,36 @@ public class PM_TP2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        int qteJogadores = 0;
-        double apostaMinima = 0, apostaMaxima = 0, saldoInicial = 0;
-        String nomeJogador;
-        JogoSeteEMeio jogoSeteEmeio;
+
+
+        JogoDeBaralho jogo;
+        JogoDeBaralhoFactory fabricaJogo;
+		
+        int tipoJogo;
+
         Scanner in = new Scanner(System.in); 
         
-        System.out.printf("Digite a quantidade de jogadores, de 2 a 10: ");
-        qteJogadores = in.nextInt();
-        System.out.printf("Digite o valor da aposta minima: ");
-        apostaMinima = in.nextDouble();
-        System.out.printf("Digite o valor da aposta maxima: ");
-        apostaMaxima = in.nextDouble();
-        jogoSeteEmeio = new JogoSeteEMeio(apostaMaxima, apostaMinima);
+        System.out.printf("Lista de jogos de baralho:\n");
+        System.out.printf("1 - Sete e Meio\n");
+        System.out.printf("2 - Truco (nao implementado)\n");
+        System.out.printf("3 - Poker (nao implementado)\n");
         
-        // saldo inicial dos jogadores será aposta máxima * quantidade de jogadores
-        saldoInicial = apostaMaxima * qteJogadores;
+        System.out.printf("Digite o numero do tipo de jogo: ");
+        tipoJogo = in.nextInt();
         
-        System.out.printf("\nDigite o nome do banqueiro: ");
-        nomeJogador = in.next();
-        // define banqueiro
-        jogoSeteEmeio.definirBanqueiro(new Jogador(nomeJogador, saldoInicial, jogoSeteEmeio));
-       
-        // adicionar jogadores
-        for (int i = 1; i < qteJogadores; i++) {
-            System.out.printf("Digite o nome do jogador " + i + ": ");
-            nomeJogador = in.next();
-            
-            // adiciona jogador
-            jogoSeteEmeio.adicionarJogador(new Jogador(nomeJogador, saldoInicial, jogoSeteEmeio));
-        }
+        if (tipoJogo == 1){
+        	System.out.printf("Criando jogo de Sete e Meio.");
+        	fabricaJogo = new JogoSeteEMeioFactory();
+        } else {
+        	System.out.printf("Tipo de jogo ainda nÃ£o implementado.");
+            fabricaJogo = new JogoSeteEMeioFactory();
+        } 
 
-        // inicializa jogo
-        jogoSeteEmeio.inicializar(in);
         
-        // espera cada jogador pedir sua quantidade de cartas
-        for (Jogador jogador : jogoSeteEmeio.getJogadores()) {
-        	jogoSeteEmeio.oferecerCarta(jogador, in);
-        }
-        
-        // após todos os jogadores pedirem as cartas, o proprio banqueiro retira cartas
-        jogoSeteEmeio.retirarCartasBanqueiro(in);
-        
-        // finalizadas as retiradas, calcula resultado final
-        jogoSeteEmeio.fimRodada();
-        
-        in.close();       
+        // cria jogo e inicializa
+        jogo = fabricaJogo.criarJogo();
+        jogo.inicializarJogo(in);
+      
     }
     
 }
