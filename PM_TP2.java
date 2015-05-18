@@ -35,18 +35,19 @@ public class PM_TP2 {
         tipoJogo = in.nextInt();
         
         if (tipoJogo == 1){
-        	System.out.printf("Criando jogo de Sete e Meio.");
+        	System.out.println("\nCriando jogo de Sete e Meio...\n");
         	fabricaJogo = new JogoSeteEMeioFactory();
         } else {
-        	System.out.printf("Tipo de jogo ainda não implementado.");
+        	System.out.println("Tipo de jogo ainda nao implementado.");
             fabricaJogo = new JogoSeteEMeioFactory();
         } 
 
-        
         // cria jogo e inicializa
-        jogo = fabricaJogo.criarJogo();
+        jogo = fabricaJogo.criarJogo(in);
         jogo.inicializarJogo(in);
-      
+        jogo.jogar(in);
+        
+        in.close();
     }
     
 }

@@ -19,10 +19,10 @@ public class Banqueiro extends Jogador implements DistribuidorDeCartas {
         }
     }
     
-    public void bonificaJogador(Jogador jogador, int fator) {
+    public void bonificarJogador(Jogador jogador, int fator) {
     	if (this.getSaldoDisponivel() >= jogador.getValorApostaAtual() * fator) {
     		this.setSaldoDisponivel(this.getSaldoDisponivel() - (jogador.getValorApostaAtual() * fator));
-    		jogador.recebeAposta(jogador.getValorApostaAtual() * fator);
+    		jogador.receberAposta(jogador.getValorApostaAtual() * fator);
     	} else {
     		// lanca excecao
     	}

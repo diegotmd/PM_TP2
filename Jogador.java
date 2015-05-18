@@ -15,6 +15,7 @@ public class Jogador {
     private JogoSeteEMeio jogoAtual;
     private Mao maoAtual;
     private double valorApostaAtual;
+    private boolean ativoRodada;
     
     public Jogador(String nome, double saldoInicial, JogoSeteEMeio jogo){
         this.nome = nome;
@@ -22,6 +23,7 @@ public class Jogador {
         this.maoAtual = new Mao(this);
         this.jogoAtual = jogo;
         this.valorApostaAtual = 0;
+        this.ativoRodada = true;
     }
     
     public boolean possuiCartasNaMao(){
@@ -41,17 +43,17 @@ public class Jogador {
     }
     
     // paga aposta
-    public void pagaAposta(Banqueiro banqueiro, int fator) {
+    public void pagarAposta(Banqueiro banqueiro, int fator) {
     	if (saldoDisponivel >= valorApostaAtual * fator) {
             saldoDisponivel -= valorApostaAtual * fator;
-            banqueiro.recebeAposta(valorApostaAtual * fator);
+            banqueiro.receberAposta(valorApostaAtual * fator);
         } else {
             // lanca exception
         }
     }
     
     // recebe aposta (bonificacao)
-    public void recebeAposta(double valor) {
+    public void receberAposta(double valor) {
     	saldoDisponivel += valor;
     }
     
@@ -67,7 +69,7 @@ public class Jogador {
     }
     
     // devolve as cartas da mao para que sejam colocadas de volta no baralho 
-    public ColecaoCartasBaralho devolerCartaDaMao(){
+    public ColecaoCartasBaralho devolverCartaDaMao(){
         Mao maoRetornada = new Mao(this);
         while (possuiCartasNaMao()){
             maoRetornada.adicionarCarta(maoAtual.retirarProximaCarta());
@@ -110,5 +112,25 @@ public class Jogador {
             }
         }
         System.out.println("\tTOTAL PARCIAL: " + this.getMaoAtual().calcularValorDaMao());
+    }
+    
+    public void sairRodada() {
+    	this.ativoRodada = false;
+    }
+    
+    public void entrarRodada() {
+    	this.ativoRodada = true;
+    }
+    
+    public boolean ehAtivoRodada() {
+    	return this.ativoRodada;
+    }
+    
+    public void zerarMaoAtual() {
+        this.maoAtual = new Mao(this);
+    }
+    
+    public void zerarApostaAtual() {
+    	this.valorApostaAtual = 0.0;
     }
 }

@@ -8,6 +8,7 @@ public interface JogoDeBaralho {
 	public Baralho getBaralho(int numeroBaralho);
 	public Collection<Jogador> getJogadores();
 	public void inicializarJogo(Scanner in);
+	public void jogar(Scanner in);
 	public String descricaoRegraJogo();
 	
 }
