@@ -1,5 +1,5 @@
-package br.ufmg.dcc.pm.tp2;
-import br.ufmg.dcc.pm.seteemeio.Banqueiro;
+package br.ufmg.dcc.pm.seteemeio;
+
 import br.ufmg.dcc.pm.seteemeio.Jogador;
 import br.ufmg.dcc.pm.seteemeio.JogoSeteEMeio;
 import java.util.Scanner;

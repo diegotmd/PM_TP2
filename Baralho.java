@@ -1,7 +1,5 @@
 package br.ufmg.dcc.pm.seteemeio;
 
-import java.util.Collection;
-
 import seteemeio.CartaBaralho;
 
 /**

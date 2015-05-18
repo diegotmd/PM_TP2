@@ -113,7 +113,7 @@ public class JogoSeteEMeio {
         	// trocar banqueiro para nova rodada
         	Jogador antigoBanqueiro = banqueiroAtual;
         	
-        	banqueiroAtual = new Banqueiro(novoBanqueiro.getNome(), novoBanqueiro.getSaldoDisponivel(), novoBanqueiro.getJogoAtual());
+        	this.definirBanqueiro(novoBanqueiro);
         	jogadores.remove(novoBanqueiro);
         	
         	jogadores.add(antigoBanqueiro);
