@@ -9,7 +9,7 @@ import br.ufmg.dcc.pm.seteemeio.Banqueiro;
  *
  * @author ddayrell
  */
-public class JogoSeteEMeio {
+public class JogoSeteEMeio implements JogoDeBaralho {
     private ArrayList <Jogador> jogadores;
     private double apostaMaxima;
     private double apostaMinima;
@@ -29,7 +29,23 @@ public class JogoSeteEMeio {
         return this.jogadores;
     }
     
-    public void inicializar(){
+	@Override
+	public String descricaoRegraJogo() {
+		return "Regra do jogo de Sete e Meio:";
+	}
+    
+	@Override
+	public String getNomeJogo() {
+		return "Sete e Meio";
+	}
+
+	@Override
+	public Baralho getBaralho(int numeroBaralho) {
+		return baralhoSeteEMeio;
+	}
+    
+	@Override
+	public void inicializarJogo() {
         // inicializar jogo
     	
     	// distribuir cartas aos jogadoes
@@ -130,4 +146,8 @@ public class JogoSeteEMeio {
     public Double getApostaMinima() {
     	return this.apostaMinima;
     }
+
+
+
+
 }

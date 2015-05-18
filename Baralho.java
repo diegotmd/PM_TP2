@@ -1,6 +1,6 @@
 package br.ufmg.dcc.pm.seteemeio;
 
-import seteemeio.CartaBaralho;
+import br.ufmg.dcc.pm.seteemeio.CartaBaralho;
 
 /**
  *
