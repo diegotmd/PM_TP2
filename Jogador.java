@@ -1,6 +1,7 @@
 package br.ufmg.dcc.pm.seteemeio;
 
 import br.ufmg.dcc.pm.seteemeio.Banqueiro;
+import br.ufmg.dcc.pm.seteemeio.CartaBaralho;
 import br.ufmg.dcc.pm.seteemeio.JogoSeteEMeio;
 import br.ufmg.dcc.pm.seteemeio.Mao;
 
@@ -55,8 +56,14 @@ public class Jogador {
     }
     
     // adiciona uma nova carta a mao atual
-    public void adicionarCartaAMao(CartaBaralho novaCarta) {
-        this.maoAtual.adicionarCarta(novaCarta);
+    public void adicionarCartaAMao(CartaBaralho novaCarta, boolean cartaAberta) {
+        if (cartaAberta) {
+        	novaCarta.abrirCarta();
+        } else {        	
+        	this.maoAtual.abrirCartasFechadas();
+        	novaCarta.fecharCarta();
+        }
+    	this.maoAtual.adicionarCarta(novaCarta);
     }
     
     // devolve as cartas da mao para que sejam colocadas de volta no baralho 
@@ -92,15 +99,16 @@ public class Jogador {
     	this.saldoDisponivel = novoSaldoDisponivel;
     }
     
-    public void imprimirMaoAtual(){
-        System.out.printf("Mão do jogador %s: ", this.getNome());
+    public void imprimirMaoAtual() {
+        System.out.printf("\nMao do jogador %s: ", this.getNome());
         for (CartaBaralho carta : getMaoAtual().colecaoDeCartas()){
-            System.out.printf("%s - ", this.getNome());
+            System.out.printf("\n\t%s - ", carta.getNome());
             if (carta.valorEhAberto()) {
-                System.out.printf("Aberta", this.getNome());
+                System.out.println("Aberta");
             } else {
-                System.out.printf("Fechada", this.getNome());
+                System.out.println("Fechada");
             }
         }
+        System.out.println("\tTOTAL PARCIAL: " + this.getMaoAtual().calcularValorDaMao());
     }
 }

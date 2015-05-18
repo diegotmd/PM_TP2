@@ -12,5 +12,5 @@ package br.ufmg.dcc.pm.seteemeio;
  */
 public interface DistribuidorDeCartas {
     // capacidade de distribuir cartas de um baralho para um jogador especifico
-    public void distribuirCartas(Jogador jogador, Baralho baralho, /*int quantidade,*/ boolean cartaAberta);
+    public void distribuirCartas(Jogador jogador, Baralho baralho, boolean cartaAberta);
 }

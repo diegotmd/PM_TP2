@@ -24,16 +24,22 @@ public class Mao implements ColecaoCartasBaralho {
     	cartasMao.add(carta);
     }
     
+    public void abrirCartasFechadas() {
+    	for (CartaBaralho carta : this.cartasMao) {
+    		carta.abrirCarta();
+    	}
+    }
+    
     public double calcularValorDaMao(){
     	double valorMao = 0.0;
     	boolean possuiCoringa = false;
     	
         // calcula valor da mao sem levar em consideracao o coringa
     	for (CartaBaralho carta : cartasMao) {
-           	if (carta.ehCartaCoringa()) {
-           		valorMao += carta.getValor();
-           	} else {
+    		if (carta.ehCartaCoringa()) {
            		possuiCoringa = true;
+           	} else {
+           		valorMao += carta.getValor();
            	}
         }
         

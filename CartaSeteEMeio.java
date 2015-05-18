@@ -51,4 +51,9 @@ public class CartaSeteEMeio implements CartaBaralho {
     public void abrirCarta() {
         setValorAbertoFechado(true);
     }
+
+    @Override
+    public void fecharCarta() {
+        setValorAbertoFechado(false);
+    }
 }

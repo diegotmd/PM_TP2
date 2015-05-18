@@ -9,18 +9,16 @@ import br.ufmg.dcc.pm.seteemeio.Banqueiro;
  *
  * @author ddayrell
  */
-public class JogoSeteEMeio implements JogoDeBaralho {
+public class JogoSeteEMeio {
     private ArrayList <Jogador> jogadores;
     private double apostaMaxima;
     private double apostaMinima;
-    private double apostaAtual;
     private Baralho baralhoSeteEMeio;
     private Banqueiro banqueiroAtual;
     
     public JogoSeteEMeio(double apostaMaxima, double apostaMinima){
         this.apostaMaxima = apostaMaxima;
         this.apostaMinima = apostaMinima;
-        this.apostaAtual = 0;
         this.baralhoSeteEMeio = new BaralhoSeteEMeio();
         this.jogadores = new ArrayList<Jogador>();        
     }
@@ -29,24 +27,11 @@ public class JogoSeteEMeio implements JogoDeBaralho {
         return this.jogadores;
     }
     
-	@Override
-	public String descricaoRegraJogo() {
-		return "Regra do jogo de Sete e Meio:";
-	}
-    
-	@Override
-	public String getNomeJogo() {
-		return "Sete e Meio";
-	}
-
-	@Override
-	public Baralho getBaralho(int numeroBaralho) {
-		return baralhoSeteEMeio;
-	}
-    
-	@Override
-	public void inicializarJogo() {
+    public void inicializar(){
         // inicializar jogo
+    	
+    	// embaralha
+    	this.baralhoSeteEMeio.embaralhar();
     	
     	// distribuir cartas aos jogadoes
     	for (Jogador jogador : jogadores) {
@@ -71,6 +56,8 @@ public class JogoSeteEMeio implements JogoDeBaralho {
             aposta = in.nextDouble();
             jogador.apostar(aposta);
         }
+        
+        in.close();
     }
     
     public void adicionarJogador(Jogador jogador){
@@ -146,8 +133,4 @@ public class JogoSeteEMeio implements JogoDeBaralho {
     public Double getApostaMinima() {
     	return this.apostaMinima;
     }
-
-
-
-
 }

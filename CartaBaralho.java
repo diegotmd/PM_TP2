@@ -11,4 +11,5 @@ public interface CartaBaralho {
     public boolean valorEhAberto();
     public boolean ehCartaCoringa();
     public void abrirCarta();
+    public void fecharCarta();
 }
