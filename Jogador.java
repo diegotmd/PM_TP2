@@ -31,14 +31,14 @@ public class Jogador {
     }
     
     // efetua uma aposta
-    public void apostar(double valor){
+    public void apostar(double valor) {
     	// saldo do jogador deve ser suficiente para pagar o dobro, caso estoure
         if (valor <= jogoAtual.getApostaMaxima() &&
             valor >= jogoAtual.getApostaMinima() &&
             saldoDisponivel >= valor * 2) {
             valorApostaAtual = valor;
         } else {
-            // lanca exception
+        	System.out.println("Saldo insuficiente para pagar o dobro da aposta!");
         }
     }
     
@@ -48,7 +48,8 @@ public class Jogador {
             saldoDisponivel -= valorApostaAtual * fator;
             banqueiro.receberAposta(valorApostaAtual * fator);
         } else {
-            // lanca exception
+            System.out.println("Jogador nao possui saldo para pagar aposta. Fim de jogo!");
+            System.exit(1);
         }
     }
     

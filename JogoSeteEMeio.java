@@ -53,11 +53,21 @@ public class JogoSeteEMeio implements JogoDeBaralho {
     	
     	// distribuir cartas aos jogadoes
     	for (Jogador jogador : jogadores) {
+    		try {
     		banqueiroAtual.distribuirCartas(jogador, baralhoSeteEMeio, false);
+    		} catch (Exception ex) {
+    			System.out.println(ex.getMessage());
+    			System.exit(1);
+    		}
     	}
     	
     	// distribuir carta ao proprio banqueiro
-    	banqueiroAtual.distribuirCartas(banqueiroAtual, baralhoSeteEMeio, false);
+    	try {
+    		banqueiroAtual.distribuirCartas(banqueiroAtual, baralhoSeteEMeio, false);
+    	} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+			System.exit(1);
+    	}
 
         // rodada de apostas iniciais
         this.fazerApostasIniciais(in);
@@ -70,8 +80,21 @@ public class JogoSeteEMeio implements JogoDeBaralho {
         for (Jogador jogador : jogadores){
             jogador.imprimirMaoAtual();
             System.out.printf("Digite o valor da aposta do jogaodor %s: ", jogador.getNome());
-            aposta = in.nextDouble();
-            jogador.apostar(aposta);
+            do {
+            	aposta = in.nextDouble();
+            	if (aposta < this.apostaMinima || aposta > this.apostaMaxima) {
+            		System.out.print("Favor digitar um valor entre R$ " + this.apostaMinima + " e R$ " + this.apostaMaxima + ": ");
+            	} else {
+            		do {
+                    	jogador.apostar(aposta);
+                    	if (jogador.getSaldoDisponivel() < (2 * aposta) || aposta < this.apostaMinima || aposta > this.apostaMaxima) {
+                    		System.out.print("Favor digitar um valor ate R$ " + (jogador.getSaldoDisponivel() / 2) + ": ");
+                    		aposta = in.nextDouble();
+                    	}
+                    } while(jogador.getSaldoDisponivel() < (2 * aposta) || aposta < this.apostaMinima || aposta > this.apostaMaxima);
+            		jogador.apostar(aposta);
+            	}
+            } while(aposta < this.apostaMinima || aposta > this.apostaMaxima);
         }
     }
     
@@ -87,7 +110,13 @@ public class JogoSeteEMeio implements JogoDeBaralho {
     	while(novaCarta.equalsIgnoreCase("S")) {
     		System.out.print("Deseja carta aberta? (s/n)");
     		cartaAberta = in.next();
-    		banqueiroAtual.distribuirCartas(jogador, this.baralhoSeteEMeio, cartaAberta.equalsIgnoreCase("S"));
+
+        	try {
+        		banqueiroAtual.distribuirCartas(jogador, this.baralhoSeteEMeio, cartaAberta.equalsIgnoreCase("S"));
+        	} catch (Exception ex) {
+    			System.out.println(ex.getMessage());
+    			System.exit(1);
+        	}
     		
     		// imprime novamente como ficou a mao apos o recebimento da carta
     		jogador.imprimirMaoAtual();
@@ -96,7 +125,7 @@ public class JogoSeteEMeio implements JogoDeBaralho {
 	    	novaCarta = in.next();
     	}
     
-    	// ao finalizar pedidos de carta, verifica se mï¿½o aberta estourou
+    	// ao finalizar pedidos de carta, verifica se mao aberta estourou
     	if (jogador.getMaoAtual().calcularValorDaMaoAberta() > 7.5) {
     		// paga aposta e sai da rodada
     		System.out.println("\nMao aberta estourou 7.5! Jogador paga aposta (R$ " + jogador.getValorApostaAtual() + ") ao banqueiro e sai da rodada!\n");
@@ -118,7 +147,13 @@ public class JogoSeteEMeio implements JogoDeBaralho {
     	while(novaCarta.equalsIgnoreCase("S")) {
     		System.out.print("Deseja carta aberta? (s/n)");
     		cartaAberta = in.next();
-    		banqueiroAtual.distribuirCartas(banqueiroAtual, this.baralhoSeteEMeio, cartaAberta.equalsIgnoreCase("S"));
+
+        	try {
+        		banqueiroAtual.distribuirCartas(banqueiroAtual, this.baralhoSeteEMeio, cartaAberta.equalsIgnoreCase("S"));
+        	} catch (Exception ex) {
+    			System.out.println(ex.getMessage());
+    			System.exit(1);
+        	}
     		
     		// imprime novamente como ficou a mao apos o recebimento da carta
     		banqueiroAtual.imprimirMaoAtual();
@@ -149,22 +184,53 @@ public class JogoSeteEMeio implements JogoDeBaralho {
     		jogador.zerarApostaAtual();
     	}
     	
+    	// zerar mão e aposta de banqueiro
+    	this.banqueiroAtual.zerarMaoAtual();
+    	this.banqueiroAtual.zerarApostaAtual();
+    	
+    	// reseta e embaralha baralho
     	this.baralhoSeteEMeio.resetarBaralho();
     	this.baralhoSeteEMeio.embaralhar();
     	
     	// remove jogadores com saldo disponivel menor que o dobro da aposta minima
-    	///////////////////////////////////////////////
+    	ArrayList<Jogador> novosJogadores = new ArrayList<Jogador>();
     	
-    	// distribuir cartas aos jogadores
-    	for (Jogador jogador : jogadores) {
-    		banqueiroAtual.distribuirCartas(jogador, baralhoSeteEMeio, false);
+    	// percorre jogadores e mantem apenas os que tem saldo maior ou igual que o dobro da aposta mínima
+    	for(Jogador jogador : jogadores) {
+    		if (jogador.getSaldoDisponivel() >= (2 * this.apostaMinima)) {
+    			novosJogadores.add(jogador);
+    		} else {
+    			System.out.println("Jogador " + jogador.getNome() + " foi retirado do jogo por nao ter saldo suficiente para continuar!");
+    		}
     	}
+    	this.setJogadores(novosJogadores);
     	
-    	// distribuir carta ao proprio banqueiro
-    	banqueiroAtual.distribuirCartas(banqueiroAtual, baralhoSeteEMeio, false);
-
-        // rodada de apostas iniciais
-        this.fazerApostasIniciais(in);
+    	if (jogadores.size() == 0) {
+    		System.out.println("Nenhum jogador possui saldo disponível. Fim de jogo!");
+    	} else if (banqueiroAtual.getSaldoDisponivel() < 0) {
+    		System.out.println("Banco falido. Fim de jogo!");
+    	} else {
+    		// distribuir cartas aos jogadoes
+        	for (Jogador jogador : jogadores) {
+        		try {
+        			banqueiroAtual.distribuirCartas(jogador, baralhoSeteEMeio, false);
+        		}catch (Exception ex) {
+        			System.out.println(ex.getMessage());
+        			System.exit(1);
+        		}
+        	}
+        	
+        	// distribuir carta ao proprio banqueiro
+        	try {
+        		banqueiroAtual.distribuirCartas(banqueiroAtual, baralhoSeteEMeio, false);
+        	} catch (Exception ex) {
+    			System.out.println(ex.getMessage());
+    			System.exit(1);
+        	}
+	
+	        // rodada de apostas iniciais
+	        this.fazerApostasIniciais(in);
+        }
     }
     
     public void fimRodada(){    	
@@ -208,15 +274,15 @@ public class JogoSeteEMeio implements JogoDeBaralho {
     		       			}
     		       		}
     		       	} else {
-    		       		if (valorJogador < valorBanqueiro) {
+    		       		if (valorJogador > valorBanqueiro) {
     		       			// banqueiro paga aposta do jogador
     		       			banqueiroAtual.bonificarJogador(jogador, 1);
-        		       		System.out.println("Jogador " + jogador.getNome() + " fez mais pontos que o banqueiro! Recebe valor da aposta: R$ " + jogador.getValorApostaAtual());
+         		       		System.out.println("Jogador " + jogador.getNome() + " fez mais pontos que o banqueiro! Recebe valor da aposta: R$ " + jogador.getValorApostaAtual());
     		       		} else {
     		       			// jogador paga aposta feita ao banqueiro
     		       			jogador.pagarAposta(banqueiroAtual, 1);
-          		       		System.out.println("Jogador " + jogador.getNome() + " fez menos pontos que o banqueiro! Paga valor da aposta: R$ " + jogador.getValorApostaAtual());
-       		       		}
+    		       			System.out.println("Jogador " + jogador.getNome() + " fez menos ou mesma quantidade de pontos que o banqueiro! Paga valor da aposta: R$ " + jogador.getValorApostaAtual());
+            		    }
     		       	}
             	} else {
 	    			System.out.println("Jogador " + jogador.getNome() + " ja estava fora dessa rodada");
@@ -258,6 +324,8 @@ public class JogoSeteEMeio implements JogoDeBaralho {
 	        	this.novaRodada(in);
 	        }
     	} while (novaRodada.equalsIgnoreCase("S") && jogadores.size() > 0);
+    	
+    	System.out.println("Obrigado!");
     }
     
     public Double getApostaMaxima() {
@@ -266,5 +334,9 @@ public class JogoSeteEMeio implements JogoDeBaralho {
     
     public Double getApostaMinima() {
     	return this.apostaMinima;
+    }
+    
+    public void setJogadores(ArrayList<Jogador> novosJogadores) {
+    	this.jogadores = novosJogadores;
     }
 }

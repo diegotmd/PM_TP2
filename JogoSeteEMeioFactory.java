@@ -14,12 +14,18 @@ public class JogoSeteEMeioFactory extends JogoDeBaralhoFactory {
         String nomeJogador;
         JogoSeteEMeio jogoSeteEmeio;
         
-        System.out.printf("Digite a quantidade de jogadores, de 2 a 10: ");
-        qteJogadores = in.nextInt();
-        System.out.printf("Digite o valor da aposta minima: ");
-        apostaMinima = in.nextDouble();
-        System.out.printf("Digite o valor da aposta maxima: ");
-        apostaMaxima = in.nextDouble();
+        try {
+	        System.out.printf("Digite a quantidade de jogadores, de 2 a 10: ");
+	        qteJogadores = in.nextInt();
+	        System.out.printf("Digite o valor da aposta minima: ");
+	        apostaMinima = in.nextDouble();
+	        System.out.printf("Digite o valor da aposta maxima: ");
+	        apostaMaxima = in.nextDouble();
+	    } catch (Exception ex) {
+	    	System.out.println("Valores informados invalidos.");
+        	System.exit(1);
+        }
+        
         jogoSeteEmeio = new JogoSeteEMeio(apostaMaxima, apostaMinima);
        
         // saldo inicial dos jogadores será aposta máxima * quantidade de jogadores
@@ -27,6 +33,7 @@ public class JogoSeteEMeioFactory extends JogoDeBaralhoFactory {
         
         System.out.printf("\nDigite o nome do banqueiro: ");
         nomeJogador = in.next();
+        
         // define banqueiro
         jogoSeteEmeio.definirBanqueiro(new Jogador(nomeJogador, saldoInicial, jogoSeteEmeio));
        

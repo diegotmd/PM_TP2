@@ -45,7 +45,7 @@ public class Mao implements ColecaoCartasBaralho {
         
         if (possuiCoringa) {
         	// identificar valor ideal para coringa
-        	if (valorMao < 7.5) {
+        	if (valorMao < 7.5 && valorMao > 0.5) {
         		valorMao = 7.5;
         	} else {
         		// se o valor da mao ja tiver estourado sem contar com o coringa, apenas soma seu valor real
@@ -73,7 +73,7 @@ public class Mao implements ColecaoCartasBaralho {
         
         if (possuiCoringa) {
         	// identificar valor ideal para coringa
-        	if (valorMaoAberta < 7.5) {
+        	if (valorMaoAberta < 7.5 && valorMaoAberta > 0.5) {
         		valorMaoAberta = 7.5;
         	} else {
         		// se o valor da mao ja tiver estourado sem contar com o coringa, apenas soma seu valor real
